@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './homepage.css';
 
 const REQUIREMENTS_DATA = [
@@ -22,9 +23,9 @@ const index = () => {
             Manual Jobs
           </a>
           <div className="navigation__links">
-            <a className="navigation__links__link" href="/login">
+            <Link className="navigation__links__link" to="/login">
               Admin Login
-            </a>
+            </Link>
           </div>
         </nav>
         <header className="heading">
@@ -110,12 +111,12 @@ const index = () => {
             Interested members should submit their documents through our
             commissions portal accessible through;
           </p>
-          <a
+          <Link
             className="extra-info-section__portal-btn"
-            href="/application-form-submit"
+            to="/application-form-submit"
           >
             Submit It Here
-          </a>
+          </Link>
           <p className="extra-info-section__content-text content-text--bold">
             Before 25th September 2023
           </p>
