@@ -17,7 +17,7 @@ const RESPONSIBILITIES_DATA = [
 const index = () => {
   return (
     <>
-      <div className="container">
+      <div className="container homepage">
         <nav className="navigation">
           <a className="navigation__logo" href="/">
             Manual Jobs

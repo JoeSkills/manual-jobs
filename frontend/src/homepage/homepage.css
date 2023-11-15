@@ -10,8 +10,8 @@ a {
   color: inherit;
 }
 
-div.container > div,
-div.container header {
+div.container.homepage > div,
+div.container.homepage header {
   padding-inline: 6.25rem;
 }
 
@@ -102,8 +102,8 @@ h3.description-section__content__heading-text {
 }
 
 @media screen and (max-width: 680px) {
-  div.container > header,
-  div.container > div {
+  div.container.homepage > header,
+  div.container.homepage > div {
     padding-inline: 1.25rem;
   }
 

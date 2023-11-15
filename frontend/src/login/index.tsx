@@ -3,7 +3,7 @@ import './login.css';
 const index = () => {
   return (
     <>
-      <div className="container">
+      <div className="container login">
         <div className="heading">
           <h2 className="heading__text">Admin Login</h2>
         </div>
