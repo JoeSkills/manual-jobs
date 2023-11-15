@@ -1,0 +1,113 @@
+h2,
+h3,
+h4,
+h5 {
+  color: #001f3f;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+div.container > div,
+div.container header {
+  padding-inline: 6.25rem;
+}
+
+nav.navigation {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5625rem 2.1875rem;
+  align-items: center;
+  background-color: #001f3f;
+  color: #fff;
+}
+
+a.navigation__logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+a.navigation__links__link:hover {
+  color: #d4c31b;
+}
+
+h1.heading__heading-text {
+  color: #d4c31b;
+  text-transform: uppercase;
+}
+
+header.heading {
+  margin-top: 3.125rem;
+}
+
+header.heading > div.heading__goals > div > p {
+  text-align: center;
+}
+
+header.heading > div.heading__goals {
+  text-transform: uppercase;
+}
+
+header.heading > div.heading__goals > div {
+  margin-top: 1.5625rem;
+}
+
+.description-section {
+  margin-top: 2.1875rem;
+}
+
+.description-section__content-text {
+  margin-top: 0.625rem;
+}
+
+.description-section__content {
+  margin-top: 1.5625rem;
+}
+
+h3.description-section__content__heading-text {
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.description-section__content__content-list {
+  padding-left: 3.125rem;
+}
+
+.extra-info-section__content-text {
+  font-size: 0.875rem;
+}
+
+.extra-info-section {
+  margin-top: 2.1875rem;
+}
+
+.extra-info-section__portal-btn {
+  padding: 0.625rem 1.25rem;
+  background-color: #d4c31b;
+  color: #001f3f;
+  display: block;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-block: 0.625rem;
+  font-weight: 700;
+}
+
+.extra-info-section__note {
+  color: rgb(201, 20, 20);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-top: 0.625rem;
+}
+
+@media screen and (max-width: 680px) {
+  div.container > header,
+  div.container > div {
+    padding-inline: 1.25rem;
+  }
+
+  header.heading {
+    margin-top: 0.625rem;
+  }
+}
