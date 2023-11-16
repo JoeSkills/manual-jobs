@@ -1,14 +1,32 @@
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
+const MONGO_URL = process.env.MONGO_URL;
+
+if (MONGO_URL) {
+  mongoose
+    .connect(MONGO_URL)
+    .then(() => console.log('MongoDB is  connected successfully'))
+    .catch((err) => console.error(err));
+}
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
+
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  })
+);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
