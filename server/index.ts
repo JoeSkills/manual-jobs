@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import authRoute from './Routes/AuthRoute';
 
 dotenv.config();
 
@@ -27,6 +28,10 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(express.json());
+
+app.use('/auth/', authRoute);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

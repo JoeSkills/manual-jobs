@@ -24,7 +24,7 @@ const index = () => {
           </a>
           <div className="navigation__links">
             <Link className="navigation__links__link" to="/login">
-              Admin Login
+              Login
             </Link>
           </div>
         </nav>

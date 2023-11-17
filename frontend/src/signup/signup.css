@@ -1,6 +1,5 @@
-.login.container {
+.signup.container {
   width: 100%;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,6 +25,16 @@
   border: none;
   background-color: #fff;
   margin-top: 0.625rem;
+}
+
+.admin-form__form-group input[type='radio'] {
+  display: inline-block;
+  width: fit-content;
+  margin-left: 0.625rem;
+}
+
+.admin-form__form-group__user-type-label {
+  margin-left: 0.3125rem;
 }
 
 .admin-form__form-group.form-group--top-margin {
@@ -62,9 +71,20 @@ button.admin-form__form-group__submit-btn:hover {
   outline: none;
 }
 
+.admin-form__form-group__input-error {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
 .admin-form__form-group__input-error--error-display {
   background-color: #580303;
   padding: 0.625rem;
   margin-top: 0.3125rem;
-  width: 100%;
+}
+
+@media screen and (max-width: 680px) {
+  .signup.container {
+    height: auto;
+  }
 }
