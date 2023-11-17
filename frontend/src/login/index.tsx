@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setLogin } from '../state';
+import { SERVER_PORT } from '../constants';
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required('Your email is required'),
@@ -24,7 +25,7 @@ const Index = () => {
 
   const onSubmitHandler = (data: { email: string; password: string }) => {
     axios
-      .post(`${import.meta.env.VITE_PUBLIC_SERVER_PORT}/auth/login`, {
+      .post(`${SERVER_PORT}/auth/login`, {
         ...data,
       })
       .then((response) => {

@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { setLogin } from '../state';
 import { useDispatch } from 'react-redux/es/exports';
+import { SERVER_PORT } from '../constants';
 
 const schema = yup.object().shape({
   username: yup.string().required('Your username is required'),
@@ -38,16 +39,13 @@ const Index = () => {
   }) => {
     if (data.secretKey)
       axios
-        .post(
-          `${
-            import.meta.env.VITE_PUBLIC_SERVER_PORT
-          }/auth/admin-key-verification`,
-          { secretKey: data.secretKey }
-        )
+        .post(`${SERVER_PORT}/auth/admin-key-verification`, {
+          secretKey: data.secretKey,
+        })
         .then((response) => {
           if (response.data.status === true)
             axios
-              .post(`${import.meta.env.VITE_PUBLIC_SERVER_PORT}/auth/signup`, {
+              .post(`${SERVER_PORT}/auth/signup`, {
                 ...data,
                 role: 'admin',
               })
@@ -65,7 +63,7 @@ const Index = () => {
         .catch(console.error);
     else {
       axios
-        .post(`${import.meta.env.VITE_PUBLIC_SERVER_PORT}/auth/signup`, {
+        .post(`${SERVER_PORT}/auth/signup`, {
           ...data,
           role: 'user',
         })
