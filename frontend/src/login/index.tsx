@@ -24,6 +24,7 @@ const Index = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmitHandler = (data: { email: string; password: string }) => {
+    console.log(SERVER_PORT);
     axios
       .post(`${SERVER_PORT}/auth/login`, {
         ...data,
