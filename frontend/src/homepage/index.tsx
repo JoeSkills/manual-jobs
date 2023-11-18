@@ -28,7 +28,7 @@ const Index = () => {
   }, [token, navigate]);
 
   return (
-    <>
+    <div>
       <Navbar />
       <div className="container homepage">
         <header className="heading">
@@ -126,7 +126,7 @@ const Index = () => {
           <p className="extra-info-section__note">First Come First Served.</p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

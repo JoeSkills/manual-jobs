@@ -5,20 +5,27 @@ import AdminDashboard from './admin-dashboard';
 import Login from './login';
 import Signup from './signup';
 import './App.css';
+import { themeSettings } from './theme';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
 
 function App() {
+  const theme = createTheme(themeSettings);
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route
-          path="/application-form-submit"
-          element={<ApplicationFormSubmit />}
-        />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route
+            path="/application-form-submit"
+            element={<ApplicationFormSubmit />}
+          />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+      </ThemeProvider>
     </>
   );
 }

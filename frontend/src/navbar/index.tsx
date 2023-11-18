@@ -91,33 +91,33 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="Link to application form"
-          sx={{
-            color:
-              pathname === '/application-form-submit' ? '#d4c31b' : 'inherit',
-          }}
-        >
-          <Link to={'/application-form-submit'}>
+      <Link to={'/application-form-submit'}>
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="Link to application form"
+            sx={{
+              color:
+                pathname === '/application-form-submit' ? '#d4c31b' : 'inherit',
+            }}
+          >
             <WorkIcon />
-          </Link>
-        </IconButton>
-        <p>Application Form</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="Link to home"
-          sx={{ color: pathname === '/' ? '#d4c31b' : 'inherit' }}
-        >
-          <Link to={'/'}>
+          </IconButton>
+          <p>Application Form</p>
+        </MenuItem>
+      </Link>
+      <Link to={'/'}>
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="Link to home"
+            sx={{ color: pathname === '/' ? '#d4c31b' : 'inherit' }}
+          >
             <HomeIcon />
-          </Link>
-        </IconButton>
-        <p>Home</p>
-      </MenuItem>
+          </IconButton>
+          <p>Home</p>
+        </MenuItem>
+      </Link>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -135,16 +135,26 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        overflow: 'hidden',
+        maxHeight: 'calc(100% - 40px)',
+      }}
+    >
       <AppBar position="static" sx={{ backgroundColor: '#001f3f' }}>
         <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
-            Manual Jobs
+          <Typography variant="h6" noWrap component="div" fontWeight={'700'}>
+            <a href="/">
+              Manual{' '}
+              <span
+                style={{
+                  color: '#d4c31b',
+                }}
+              >
+                Jobs
+              </span>
+            </a>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
