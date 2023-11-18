@@ -4,11 +4,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 import WorkIcon from '@mui/icons-material/Work';
@@ -94,12 +92,19 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
+        <IconButton
+          size="large"
+          aria-label="Link to application form"
+          sx={{
+            color:
+              pathname === '/application-form-submit' ? '#d4c31b' : 'inherit',
+          }}
+        >
+          <Link to={'/application-form-submit'}>
+            <WorkIcon />
+          </Link>
         </IconButton>
-        <p>Messages</p>
+        <p>Application Form</p>
       </MenuItem>
       <MenuItem>
         <IconButton
@@ -116,15 +121,13 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
-          aria-label="Link to application form"
-          sx={{
-            color:
-              pathname === '/application-form-submit' ? '#d4c31b' : 'inherit',
-          }}
+          aria-label="account of current user"
+          aria-controls={menuId}
+          aria-haspopup="true"
+          onClick={handleProfileMenuOpen}
+          color="inherit"
         >
-          <Link to={'/application-form'}>
-            <WorkIcon />
-          </Link>
+          <AccountCircle />
         </IconButton>
         <p>Profile</p>
       </MenuItem>
