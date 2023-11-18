@@ -1,5 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Navbar from '../navbar';
 import './homepage.css';
+import { useSelector } from 'react-redux';
+import { State } from '../state';
+import { useEffect } from 'react';
+import { verifyIsLogged } from '../utils';
 
 const REQUIREMENTS_DATA = [
   'Be a holder of a KENYAN NATIONAL IDENTITY CARD',
@@ -14,20 +19,18 @@ const RESPONSIBILITIES_DATA = [
   'Watering trees seedlings until maturity stage',
 ];
 
-const index = () => {
+const Index = () => {
+  const navigate = useNavigate();
+  const token = useSelector((state: State) => state.token);
+
+  useEffect(() => {
+    verifyIsLogged(navigate, token);
+  }, [token, navigate]);
+
   return (
     <>
+      <Navbar />
       <div className="container homepage">
-        <nav className="navigation">
-          <a className="navigation__logo" href="/">
-            Manual Jobs
-          </a>
-          <div className="navigation__links">
-            <Link className="navigation__links__link" to="/login">
-              Login
-            </Link>
-          </div>
-        </nav>
         <header className="heading">
           <h1 className="heading__heading-text">
             Manual Jobs Services Limited
@@ -77,7 +80,7 @@ const index = () => {
             <div className="description-section__content__content-list">
               <ul>
                 {REQUIREMENTS_DATA.map((requirement) => (
-                  <li>{requirement}</li>
+                  <li key={requirement}>{requirement}</li>
                 ))}
               </ul>
             </div>
@@ -90,7 +93,7 @@ const index = () => {
             <div className="description-section__content__content-list">
               <ul>
                 {RESPONSIBILITIES_DATA.map((responsibility) => (
-                  <li>{responsibility}</li>
+                  <li key={responsibility}>{responsibility}</li>
                 ))}
               </ul>
             </div>
@@ -127,4 +130,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

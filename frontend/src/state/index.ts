@@ -5,6 +5,17 @@ const initialState = {
   token: null,
 };
 
+export type State = {
+  user: {
+    username: string;
+    email: string;
+    password: string;
+    accepted?: boolean;
+    role: string;
+  };
+  token: string;
+};
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
