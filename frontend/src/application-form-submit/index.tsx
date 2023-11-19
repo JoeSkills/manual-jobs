@@ -4,6 +4,9 @@ import { State } from '../state';
 import { useEffect, useState } from 'react';
 import { verifyIsLogged } from '../utils';
 import Navbar from '../navbar';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import {
   Box,
   Grid,
@@ -16,19 +19,45 @@ import {
   SelectChangeEvent,
   Button,
 } from '@mui/material';
+import PassportUploadWidget from '../widgets/PassportUploadWidget';
 
 const Index = () => {
   const navigate = useNavigate();
   const token = useSelector((state: State) => state.token);
+  const { username } = useSelector((state: State) => state.user);
   const [gender, setGender] = useState('');
+
+  const validationSchema = Yup.object().shape({
+    phoneNumber: Yup.number(),
+    gender: Yup.string(),
+    passportImgURL: Yup.string(),
+  });
+
+  const { register, handleSubmit, setValue } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value as string);
+    setValue('gender', event.target.value as string);
+  };
+
+  const onSubmit = (data: {
+    phoneNumber?: number;
+    gender?: string;
+    passportImgURL?: string;
+  }) => {
+    console.log(data);
   };
 
   useEffect(() => {
     verifyIsLogged(navigate, token);
   }, [token, navigate]);
+
+  useEffect(() => {
+    register('gender');
+    register('passportImgURL');
+  }, [register]);
   return (
     <div>
       <Navbar />
@@ -45,21 +74,32 @@ const Index = () => {
       </Box>
       <Box bgcolor={'#f5f5f5'} padding={{ sm: '6.25rem', xs: 2 }}>
         <Typography
+          fontWeight={'500'}
+          fontSize={'1rem'}
+          color={'#2C3E50'}
+          textAlign={'center'}
+          marginBottom={'1.5625rem'}
+        >
+          Welcome, {username}
+        </Typography>
+        <Typography
           fontWeight={'700'}
           fontSize={'1.5rem'}
           color={'#2C3E50'}
           textAlign={'center'}
           marginBottom={'2.1875rem'}
         >
-          Carefully fill in the details
+          Carefully fill in the details to complete your registration
         </Typography>
-        <form>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={3} bgcolor={'#fff'} padding={2}>
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="off"
                 placeholder="Your phone number"
                 type="tel"
+                {...register('phoneNumber')}
                 label="Phone Number"
                 fullWidth
               />
@@ -77,24 +117,10 @@ const Index = () => {
               <label htmlFor="passport">
                 <Typography fontSize={'0.875rem'}>Passport</Typography>
               </label>
-              <Box
-                width={'100%'}
-                height={'100px'}
-                border={'1px dashed #2C3E50'}
-                marginTop={1}
-                textAlign={'center'}
-                position={'relative'}
-                display={'flex'}
-                alignItems={'center'}
-                justifyContent={'center'}
-                fontSize={'0.875rem'}
-              >
-                <input type="file" name="passport" className="passport-input" />
-                Click here or drop the file here
-              </Box>
+              <PassportUploadWidget setValue={setValue} />
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" color="warning">
+              <Button variant="contained" color="warning" type="submit">
                 Update
               </Button>
             </Grid>

@@ -30,6 +30,14 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  phoneNumber: {
+    type: Number,
+    required: false,
+  },
+  gender: {
+    type: String,
+    required: false,
+  },
 });
 
 export default mongoose.model('User', userSchema);
