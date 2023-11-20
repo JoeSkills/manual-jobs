@@ -13,6 +13,9 @@ export type State = {
     accepted?: boolean;
     role: string;
     _id: string;
+    userImg?: string;
+    phoneNumber?: number;
+    gender?: string;
   };
   token: string;
 };

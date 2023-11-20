@@ -21,6 +21,8 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
 
+app.use(express.static('uploads'));
+
 app.use(
   cors({
     origin: ['http://localhost:5173', 'https://manual-jobs.netlify.app'],

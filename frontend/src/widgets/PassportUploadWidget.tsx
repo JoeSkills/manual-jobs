@@ -1,10 +1,17 @@
 import { Box, Button } from '@mui/material';
-import { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
+import { SERVER_PORT } from '../constants';
 
 const PassportUploadWidget = ({
   setValue,
+  defaultValue,
+  setDefaultUserImg,
 }: {
+  defaultValue?: string | undefined | null;
+  setDefaultUserImg?: React.Dispatch<
+    React.SetStateAction<string | null | undefined>
+  >;
   setValue: UseFormSetValue<{
     gender?: string | undefined;
     phoneNumber?: number | undefined;
@@ -24,11 +31,14 @@ const PassportUploadWidget = ({
     setValue('passportImgFile', event.dataTransfer.files[0]);
   };
 
-  if (passportFiles) {
+  if (passportFiles || defaultValue) {
     return (
       <Box mt={2}>
         <img
-          src={URL.createObjectURL(passportFiles[0])}
+          src={
+            (passportFiles && URL.createObjectURL(passportFiles[0])) ||
+            `${SERVER_PORT}/images/${defaultValue}`
+          }
           width={'200px'}
           height={'200px'}
           style={{ border: '2px solid #001f3f' }}
@@ -38,7 +48,10 @@ const PassportUploadWidget = ({
         <Button
           color="error"
           variant="contained"
-          onClick={() => setPassportFiles(null)}
+          onClick={() => {
+            setPassportFiles(null);
+            setDefaultUserImg && setDefaultUserImg(() => null);
+          }}
         >
           Change Picture
         </Button>

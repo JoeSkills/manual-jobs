@@ -6,7 +6,7 @@ import {
   UpdateUser,
 } from '../Controllers/AuthController';
 import express from 'express';
-import ImageUploadMiddleware from '../Middlewares/ImageUploadMiddleware';
+import DocsUploadMiddleware from '../Middlewares/DocsUploadMiddleware';
 
 const router = express.Router();
 
@@ -18,6 +18,6 @@ router.post('/', userVerification);
 
 router.post('/admin-key-verification', adminSecretKeyVerification);
 
-router.patch('/update-user/:id', ImageUploadMiddleware, UpdateUser);
+router.patch('/update-user/:id', DocsUploadMiddleware, UpdateUser);
 
 export default router;

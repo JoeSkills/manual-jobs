@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { State } from '../state';
+import { State, setLogin } from '../state';
 import { useEffect, useState } from 'react';
 import { verifyIsLogged } from '../utils';
 import Navbar from '../navbar';
@@ -27,19 +27,32 @@ import { SERVER_PORT } from '../constants';
 const Index = () => {
   const navigate = useNavigate();
   const token = useSelector((state: State) => state.token);
-  const { username, _id } = useSelector((state: State) => state.user) || {
+  const { username, _id, phoneNumber, userImg } = useSelector(
+    (state: State) => state.user
+  ) || {
     username: '',
   };
   const [gender, setGender] = useState('');
+  const dispatch = useDispatch();
+  const user = useSelector((state: State) => state.user);
+
+  const [defaultUserImg, setDefaultUserImg] = useState<
+    null | string | undefined
+  >(userImg);
 
   const validationSchema = Yup.object().shape({
     phoneNumber: Yup.number(),
     gender: Yup.string(),
     passportImgFile: Yup.mixed(),
+    userDocsPDFFile: Yup.mixed(),
   });
 
   const { register, handleSubmit, setValue } = useForm({
     resolver: yupResolver(validationSchema),
+    defaultValues: {
+      phoneNumber,
+      gender: user.gender,
+    },
   });
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -59,7 +72,10 @@ const Index = () => {
           'Content-Type': 'multipart/form-data',
         },
       })
-      .then(console.log)
+      .then((response) => {
+        dispatch(setLogin({ user: response.data.user, token }));
+        console.log(response);
+      })
       .catch(console.warn);
   };
 
@@ -70,6 +86,7 @@ const Index = () => {
   useEffect(() => {
     register('gender');
     register('passportImgFile');
+    register('userDocsPDFFile');
   }, [register]);
   return (
     <div>
@@ -114,13 +131,19 @@ const Index = () => {
                 type="tel"
                 {...register('phoneNumber')}
                 label="Phone Number"
+                defaultValue={phoneNumber}
                 fullWidth
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-                <Select value={gender} label="gender" onChange={handleChange}>
+                <Select
+                  value={gender}
+                  defaultValue={user.gender}
+                  label="gender"
+                  onChange={handleChange}
+                >
                   <MenuItem value={'male'}>Male</MenuItem>
                   <MenuItem value={'female'}>Female</MenuItem>
                 </Select>
@@ -130,13 +153,17 @@ const Index = () => {
               <label htmlFor="passport">
                 <Typography fontSize={'0.875rem'}>Passport</Typography>
               </label>
-              <PassportUploadWidget setValue={setValue} />
+              <PassportUploadWidget
+                setValue={setValue}
+                defaultValue={defaultUserImg}
+                setDefaultUserImg={setDefaultUserImg}
+              />
             </Grid>
             <Grid item xs={12}>
               <label htmlFor="PDF">
                 <Typography fontSize={'0.875rem'}>PDF</Typography>
               </label>
-              <PDFUploadWidget />
+              <PDFUploadWidget setValue={setValue} />
             </Grid>
             <Grid item xs={12}>
               <Button variant="contained" color="warning" type="submit">

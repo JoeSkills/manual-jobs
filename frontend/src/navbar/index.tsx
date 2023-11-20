@@ -6,13 +6,14 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 import WorkIcon from '@mui/icons-material/Work';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, setLogout } from '../state';
+import { Avatar } from '@mui/material';
+import { SERVER_PORT } from '../constants';
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -129,7 +130,7 @@ export default function PrimarySearchAppBar() {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <AccountCircle />
+            <Avatar src={`${SERVER_PORT}/images/${user.userImg}`} />
           </IconButton>
           <p>Profile</p>
         </MenuItem>
@@ -194,7 +195,7 @@ export default function PrimarySearchAppBar() {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <Avatar src={`${SERVER_PORT}/images/${user.userImg}`} />
               </IconButton>
             )}
           </Box>

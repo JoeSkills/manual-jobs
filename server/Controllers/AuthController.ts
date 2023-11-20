@@ -109,7 +109,8 @@ export const adminSecretKeyVerification: RequestHandler = (req, res) => {
 export const UpdateUser: RequestHandler = async (req: any, res, next) => {
   try {
     const { phoneNumber, gender } = req.body;
-    const userImg = req.file.filename;
+    const userImg = req.files[0].filename;
+    const userDocs = req.files[1].filename;
 
     if (!phoneNumber && !userImg && !gender)
       return res.status(400).json({
@@ -123,6 +124,7 @@ export const UpdateUser: RequestHandler = async (req: any, res, next) => {
         phoneNumber,
         gender,
         userImg,
+        userDocs,
       }
     );
 

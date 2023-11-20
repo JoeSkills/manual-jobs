@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  userDocs: {
+    type: String,
+    required: false,
+  },
 });
 
 export default mongoose.model('User', userSchema);
