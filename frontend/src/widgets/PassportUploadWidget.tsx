@@ -1,6 +1,5 @@
 import { Box, Button } from '@mui/material';
 import { useState, useRef } from 'react';
-import axios from 'axios';
 import { UseFormSetValue } from 'react-hook-form';
 
 const PassportUploadWidget = ({
@@ -9,7 +8,7 @@ const PassportUploadWidget = ({
   setValue: UseFormSetValue<{
     gender?: string | undefined;
     phoneNumber?: number | undefined;
-    passportImgURL?: string | undefined;
+    passportImgFile?: File | undefined;
   }>;
 }) => {
   const [passportFiles, setPassportFiles] = useState<FileList | null>(null);
@@ -19,24 +18,10 @@ const PassportUploadWidget = ({
     event.preventDefault();
   };
 
-  const handlePassportUpload = () => {
-    const formData = new FormData();
-    passportFiles && formData.append('file', passportFiles[0]);
-    formData.append('upload_preset', 'cvjwuc52');
-    axios
-      .post('https://api.cloudinary.com/v1_1/drdcro8wt/image/upload', formData)
-      .then((response) => {
-        console.log(response);
-        setValue('passportImgURL', response.data.secure_url);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setPassportFiles(event.dataTransfer.files);
+    setValue('passportImgFile', event.dataTransfer.files[0]);
   };
 
   if (passportFiles) {
@@ -56,17 +41,6 @@ const PassportUploadWidget = ({
           onClick={() => setPassportFiles(null)}
         >
           Change Picture
-        </Button>
-        <br />
-        <Button
-          color="success"
-          variant="contained"
-          sx={{ mt: 1 }}
-          onClick={() => {
-            passportFiles && handlePassportUpload();
-          }}
-        >
-          Upload Picture
         </Button>
       </Box>
     );
@@ -97,6 +71,8 @@ const PassportUploadWidget = ({
             ref={passportInputRef}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setPassportFiles(event.target.files);
+              event.target.files &&
+                setValue('passportImgFile', event.target.files[0]);
             }}
             hidden
           />

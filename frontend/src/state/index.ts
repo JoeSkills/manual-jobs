@@ -12,6 +12,7 @@ export type State = {
     password: string;
     accepted?: boolean;
     role: string;
+    _id: string;
   };
   token: string;
 };

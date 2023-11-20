@@ -21,11 +21,13 @@ import {
 } from '@mui/material';
 import PassportUploadWidget from '../widgets/PassportUploadWidget';
 import PDFUploadWidget from '../widgets/PDFUploadWidget';
+import axios from 'axios';
+import { SERVER_PORT } from '../constants';
 
 const Index = () => {
   const navigate = useNavigate();
   const token = useSelector((state: State) => state.token);
-  const { username } = useSelector((state: State) => state.user) || {
+  const { username, _id } = useSelector((state: State) => state.user) || {
     username: '',
   };
   const [gender, setGender] = useState('');
@@ -33,7 +35,7 @@ const Index = () => {
   const validationSchema = Yup.object().shape({
     phoneNumber: Yup.number(),
     gender: Yup.string(),
-    passportImgURL: Yup.string(),
+    passportImgFile: Yup.mixed(),
   });
 
   const { register, handleSubmit, setValue } = useForm({
@@ -48,9 +50,17 @@ const Index = () => {
   const onSubmit = (data: {
     phoneNumber?: number;
     gender?: string;
-    passportImgURL?: string;
+    passportImgFile?: string;
   }) => {
     console.log(data);
+    axios
+      .patch(`${SERVER_PORT}/auth/update-user/${_id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(console.log)
+      .catch(console.warn);
   };
 
   useEffect(() => {
@@ -59,7 +69,7 @@ const Index = () => {
 
   useEffect(() => {
     register('gender');
-    register('passportImgURL');
+    register('passportImgFile');
   }, [register]);
   return (
     <div>

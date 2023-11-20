@@ -105,3 +105,35 @@ export const adminSecretKeyVerification: RequestHandler = (req, res) => {
     res.status(404).json({ message: (error as Error).message, status: false });
   }
 };
+
+export const UpdateUser: RequestHandler = async (req: any, res, next) => {
+  try {
+    const { phoneNumber, gender } = req.body;
+    const userImg = req.file.filename;
+
+    if (!phoneNumber && !userImg && !gender)
+      return res.status(400).json({
+        status: false,
+        message: 'Updates can only be carried out with the proper values',
+      });
+
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        phoneNumber,
+        gender,
+        userImg,
+      }
+    );
+
+    await user?.save();
+
+    return res
+      .status(200)
+      .json({ message: 'User data uploaded successfully', status: true, user });
+
+    next();
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message, status: false });
+  }
+};

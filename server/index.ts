@@ -24,7 +24,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use(
   cors({
     origin: ['http://localhost:5173', 'https://manual-jobs.netlify.app'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
   })
 );

@@ -7,7 +7,7 @@ const PDFUploadWidget = () => {
   const PDFInputRef = useRef<HTMLInputElement>(null);
 
   const [numPages, setNumPages] = useState<number>();
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [pageNumber] = useState<number>(1);
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
