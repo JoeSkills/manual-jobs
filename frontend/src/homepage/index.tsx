@@ -1,10 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,  } from 'react-router-dom';
 import Navbar from '../navbar';
 import './homepage.css';
-import { useSelector } from 'react-redux';
-import { State } from '../state';
-import { useEffect } from 'react';
-import { verifyIsLogged } from '../utils';
+
 
 const REQUIREMENTS_DATA = [
   'Be a holder of a KENYAN NATIONAL IDENTITY CARD',
@@ -20,12 +17,7 @@ const RESPONSIBILITIES_DATA = [
 ];
 
 const Index = () => {
-  const navigate = useNavigate();
-  const token = useSelector((state: State) => state.token);
 
-  useEffect(() => {
-    verifyIsLogged(navigate, token);
-  }, [token, navigate]);
 
   return (
     <div>

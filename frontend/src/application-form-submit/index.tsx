@@ -20,11 +20,14 @@ import {
   Button,
 } from '@mui/material';
 import PassportUploadWidget from '../widgets/PassportUploadWidget';
+import PDFUploadWidget from '../widgets/PDFUploadWidget';
 
 const Index = () => {
   const navigate = useNavigate();
   const token = useSelector((state: State) => state.token);
-  const { username } = useSelector((state: State) => state.user);
+  const { username } = useSelector((state: State) => state.user) || {
+    username: '',
+  };
   const [gender, setGender] = useState('');
 
   const validationSchema = Yup.object().shape({
@@ -118,6 +121,12 @@ const Index = () => {
                 <Typography fontSize={'0.875rem'}>Passport</Typography>
               </label>
               <PassportUploadWidget setValue={setValue} />
+            </Grid>
+            <Grid item xs={12}>
+              <label htmlFor="PDF">
+                <Typography fontSize={'0.875rem'}>PDF</Typography>
+              </label>
+              <PDFUploadWidget />
             </Grid>
             <Grid item xs={12}>
               <Button variant="contained" color="warning" type="submit">
