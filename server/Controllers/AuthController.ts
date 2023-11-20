@@ -109,8 +109,8 @@ export const adminSecretKeyVerification: RequestHandler = (req, res) => {
 export const UpdateUser: RequestHandler = async (req: any, res, next) => {
   try {
     const { phoneNumber, gender } = req.body;
-    const userImg = req.files[0].filename;
-    const userDocs = req.files[1].filename;
+    const userImg = req.files && req.files[0] && req.files[0].filename;
+    const userDocs = req.files && req.files[1] && req.files[1].filename;
 
     if (!phoneNumber && !userImg && !gender)
       return res.status(400).json({
@@ -118,13 +118,27 @@ export const UpdateUser: RequestHandler = async (req: any, res, next) => {
         message: 'Updates can only be carried out with the proper values',
       });
 
+    if (req.files && req.files[0] && req.files[0].filename)
+      await User.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          userImg,
+        }
+      );
+
+    if (req.files && req.files[1] && req.files[1].filename)
+      await User.findOneAndUpdate(
+        { _id: req.params.id },
+        {
+          userDocs,
+        }
+      );
+
     const user = await User.findOneAndUpdate(
       { _id: req.params.id },
       {
         phoneNumber,
         gender,
-        userImg,
-        userDocs,
       }
     );
 

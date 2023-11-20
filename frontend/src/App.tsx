@@ -4,6 +4,7 @@ import ApplicationFormSubmit from './application-form-submit';
 import AdminDashboard from './admin-dashboard';
 import Login from './login';
 import Signup from './signup';
+import UserProfilePreview from './user-profile-preview';
 import './App.css';
 import { themeSettings } from './theme';
 import { createTheme } from '@mui/material/styles';
@@ -24,6 +25,10 @@ function App() {
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route
+            path="/user-profile-preview"
+            element={<UserProfilePreview />}
+          />
         </Routes>
       </ThemeProvider>
     </>

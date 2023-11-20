@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { State, setLogin } from '../state';
 import { useEffect, useState } from 'react';
 import { verifyIsLogged } from '../utils';
@@ -31,10 +31,19 @@ const Index = () => {
     (state: State) => state.user
   ) || {
     username: '',
+    _id: '',
+    phoneNumber: '',
+    userImg: '',
   };
   const [gender, setGender] = useState('');
   const dispatch = useDispatch();
-  const user = useSelector((state: State) => state.user);
+  const user = useSelector((state: State) => state.user) || {
+    gender: '',
+    username: '',
+    _id: '',
+    phoneNumber: '',
+    userImg: '',
+  };
 
   const [defaultUserImg, setDefaultUserImg] = useState<
     null | string | undefined
@@ -102,6 +111,19 @@ const Index = () => {
       >
         Application Form For The Manual Jobs Service
       </Box>
+      <Box
+        p={2}
+        fontSize={'14px'}
+        textAlign={'center'}
+        mt={2}
+        color={'#001f3f '}
+        fontWeight={'500'}
+      >
+        <Link to={'/application-form-submit'}>Application Form</Link>
+        <Link to={'/user-profile-preview'} style={{ marginLeft: '10px' }}>
+          Preview Application
+        </Link>
+      </Box>
       <Box bgcolor={'#f5f5f5'} padding={{ sm: '6.25rem', xs: 2 }}>
         <Typography
           fontWeight={'500'}
@@ -139,8 +161,7 @@ const Index = () => {
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                 <Select
-                  value={gender}
-                  defaultValue={user.gender}
+                  value={gender || user.gender}
                   label="gender"
                   onChange={handleChange}
                 >
