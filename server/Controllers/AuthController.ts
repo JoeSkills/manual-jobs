@@ -146,8 +146,45 @@ export const UpdateUser: RequestHandler = async (req: any, res, next) => {
 
     return res
       .status(200)
-      .json({ message: 'User data uploaded successfully', status: true, user });
+      .json({ message: 'User Data Updated Successfully', status: true, user });
 
+    next();
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message, status: false });
+  }
+};
+
+export const AcceptUser: RequestHandler = async (req, res, next) => {
+  try {
+    const { _id } = req.body;
+
+    const user = await User.findOneAndUpdate(
+      { _id },
+      {
+        accepted: true,
+      }
+    );
+
+    await user?.save();
+
+    return res
+      .status(200)
+      .json({ message: 'User Data Updated Successfully', status: true, user });
+
+    next();
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message, status: false });
+  }
+};
+
+export const GetAuthData: RequestHandler = async (req, res, next) => {
+  try {
+    const users = await User.find();
+    return res.status(200).json({
+      message: 'Successfully retrieved all users',
+      users,
+      status: true,
+    });
     next();
   } catch (error) {
     res.status(400).json({ message: (error as Error).message, status: false });

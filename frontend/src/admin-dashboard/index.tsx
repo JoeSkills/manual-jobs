@@ -1,13 +1,16 @@
 import Navbar from '../navbar';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import UserDataTableViewer from '../widgets/UserDataTableViewer';
 
 const index = () => {
   return (
     <>
       <Navbar />
-      <Box>
-        This is the admin dashboard. I'm looking to add some things to manage
-        people signing up for the application
+      <Box padding={3}>
+        <Typography marginBottom={2} fontWeight={'700'}>
+          Manage People Signing Up For Applications
+        </Typography>
+        <UserDataTableViewer />
       </Box>
     </>
   );

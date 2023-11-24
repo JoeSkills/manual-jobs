@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { State, setLogout } from '../state';
 import { Avatar } from '@mui/material';
 import { SERVER_PORT } from '../constants';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -120,6 +121,22 @@ export default function PrimarySearchAppBar() {
           <p>Home</p>
         </MenuItem>
       </Link>
+      {user.role === 'admin' && (
+        <Link to={'/admin-dashboard'}>
+          <MenuItem>
+            <IconButton
+              size="large"
+              aria-label="Link to admin dashboard"
+              sx={{
+                color: pathname === '/admin-dashboard' ? '#d4c31b' : 'inherit',
+              }}
+            >
+              <AdminPanelSettingsIcon />
+            </IconButton>
+            <p>Admin</p>
+          </MenuItem>
+        </Link>
+      )}
       {user && (
         <MenuItem onClick={handleProfileMenuOpen}>
           <IconButton
@@ -185,6 +202,21 @@ export default function PrimarySearchAppBar() {
                 <WorkIcon />
               </Link>
             </IconButton>
+            {user.role === 'admin' && (
+              <IconButton
+                size="large"
+                aria-label="Link to admin dashboard"
+                sx={{
+                  color:
+                    pathname === '/admin-dashboard' ? '#d4c31b' : 'inherit',
+                }}
+              >
+                <Link to={'/admin-dashboard'}>
+                  <AdminPanelSettingsIcon />
+                </Link>
+              </IconButton>
+            )}
+
             {user && (
               <IconButton
                 size="large"

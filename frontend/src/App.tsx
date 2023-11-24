@@ -9,27 +9,31 @@ import './App.css';
 import { themeSettings } from './theme';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function App() {
   const theme = createTheme(themeSettings);
+  const queryClient = new QueryClient();
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route
-            path="/application-form-submit"
-            element={<ApplicationFormSubmit />}
-          />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route
-            path="/user-profile-preview"
-            element={<UserProfilePreview />}
-          />
-        </Routes>
+        <QueryClientProvider client={queryClient}>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route
+              path="/application-form-submit"
+              element={<ApplicationFormSubmit />}
+            />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route
+              path="/user-profile-preview"
+              element={<UserProfilePreview />}
+            />
+          </Routes>
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   );

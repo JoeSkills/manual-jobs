@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { State, setLogin } from '../state';
 import { useEffect, useState } from 'react';
 import { verifyIsLogged } from '../utils';
@@ -23,6 +23,7 @@ import PassportUploadWidget from '../widgets/PassportUploadWidget';
 import PDFUploadWidget from '../widgets/PDFUploadWidget';
 import axios from 'axios';
 import { SERVER_PORT } from '../constants';
+import ApplicationSwitchNavWidget from '../widgets/ApplicationSwitchNavWidget';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -111,19 +112,7 @@ const Index = () => {
       >
         Application Form For The Manual Jobs Service
       </Box>
-      <Box
-        p={2}
-        fontSize={'14px'}
-        textAlign={'center'}
-        mt={2}
-        color={'#001f3f '}
-        fontWeight={'500'}
-      >
-        <Link to={'/application-form-submit'}>Application Form</Link>
-        <Link to={'/user-profile-preview'} style={{ marginLeft: '10px' }}>
-          Preview Application
-        </Link>
-      </Box>
+      <ApplicationSwitchNavWidget />
       <Box bgcolor={'#f5f5f5'} padding={{ sm: '6.25rem', xs: 2 }}>
         <Typography
           fontWeight={'500'}
@@ -131,6 +120,7 @@ const Index = () => {
           color={'#2C3E50'}
           textAlign={'center'}
           marginBottom={'1.5625rem'}
+          fontStyle={'italic'}
         >
           Welcome, {username}
         </Typography>
