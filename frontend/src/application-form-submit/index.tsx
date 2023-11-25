@@ -24,6 +24,7 @@ import PDFUploadWidget from '../widgets/PDFUploadWidget';
 import axios from 'axios';
 import { SERVER_PORT } from '../constants';
 import ApplicationSwitchNavWidget from '../widgets/ApplicationSwitchNavWidget';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -75,18 +76,22 @@ const Index = () => {
     gender?: string;
     passportImgFile?: string;
   }) => {
-    console.log(data);
-    axios
-      .patch(`${SERVER_PORT}/auth/update-user/${_id}`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
+    toast
+      .promise(
+        axios.patch(`${SERVER_PORT}/auth/update-user/${_id}`, data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }),
+        {
+          loading: 'Updating application form...',
+          error: 'Error updating application form. Please try again.',
+          success: 'Application form updated successfully!',
+        }
+      )
       .then((response) => {
         dispatch(setLogin({ user: response.data.user, token }));
-        console.log(response);
-      })
-      .catch(console.warn);
+      });
   };
 
   useEffect(() => {
@@ -100,6 +105,7 @@ const Index = () => {
   }, [register]);
   return (
     <div>
+      <Toaster />
       <Navbar />
 
       <Box

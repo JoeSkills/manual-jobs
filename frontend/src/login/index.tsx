@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setLogin } from '../state';
 import { SERVER_PORT } from '../constants';
+import toast, { Toaster } from 'react-hot-toast';
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required('Your email is required'),
@@ -24,11 +25,18 @@ const Index = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmitHandler = (data: { email: string; password: string }) => {
-    console.log(SERVER_PORT);
-    axios
-      .post(`${SERVER_PORT}/auth/login`, {
-        ...data,
-      })
+    toast
+      .promise(
+        axios.post(`${SERVER_PORT}/auth/login`, {
+          ...data,
+        }),
+        {
+          loading: 'Logging in...',
+          error:
+            'Invalid credentials. Please check your username and password.',
+          success: 'Login successful! Welcome back.',
+        }
+      )
       .then((response) => {
         dispatch(
           setLogin({ user: response.data.user, token: response.data.token })
@@ -36,13 +44,12 @@ const Index = () => {
         if (response.data.user.role === 'user')
           navigate('/application-form-submit');
         navigate('/admin-dashboard');
-        console.log(response.data);
-      })
-      .catch(console.error);
+      });
   };
 
   return (
     <>
+      <Toaster />
       <div className="container login">
         <div className="heading">
           <h2 className="heading__text">Login</h2>

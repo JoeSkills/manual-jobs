@@ -7,6 +7,7 @@ import axios from 'axios';
 import { setLogin } from '../state';
 import { useDispatch } from 'react-redux/es/exports';
 import { SERVER_PORT } from '../constants';
+import toast, { Toaster } from 'react-hot-toast';
 
 const schema = yup.object().shape({
   username: yup.string().required('Your username is required'),
@@ -37,18 +38,32 @@ const Index = () => {
     confirmPassword?: string;
     secretKey?: string;
   }) => {
-    if (data.secretKey)
-      axios
-        .post(`${SERVER_PORT}/auth/admin-key-verification`, {
-          secretKey: data.secretKey,
-        })
+    if (data.secretKey) {
+      toast
+        .promise(
+          axios.post(`${SERVER_PORT}/auth/admin-key-verification`, {
+            secretKey: data.secretKey,
+          }),
+          {
+            loading: 'Verifying admin key...',
+            error: 'Invalid admin key. Please check and try again.',
+            success: 'Admin key verified successfully!',
+          }
+        )
         .then((response) => {
-          if (response.data.status === true)
-            axios
-              .post(`${SERVER_PORT}/auth/signup`, {
-                ...data,
-                role: 'admin',
-              })
+          if (response.data.status === true) {
+            toast
+              .promise(
+                axios.post(`${SERVER_PORT}/auth/signup`, {
+                  ...data,
+                  role: 'admin',
+                }),
+                {
+                  loading: 'Signing up...',
+                  error: 'Error signing up. Please try again.',
+                  success: 'Signup successful!',
+                }
+              )
               .then((response) => {
                 dispatch(
                   setLogin({
@@ -57,16 +72,22 @@ const Index = () => {
                   })
                 );
                 navigate('/admin-dashboard');
-              })
-              .catch(console.error);
-        })
-        .catch(console.error);
-    else {
-      axios
-        .post(`${SERVER_PORT}/auth/signup`, {
-          ...data,
-          role: 'user',
-        })
+              });
+          }
+        });
+    } else {
+      toast
+        .promise(
+          axios.post(`${SERVER_PORT}/auth/signup`, {
+            ...data,
+            role: 'user',
+          }),
+          {
+            loading: 'Signing up...',
+            error: 'Error signing up. Please try again.',
+            success: 'Signup successful!',
+          }
+        )
         .then((response) => {
           dispatch(
             setLogin({
@@ -76,8 +97,7 @@ const Index = () => {
           );
 
           navigate('/application-form-submit');
-        })
-        .catch(console.error);
+        });
     }
   };
 
@@ -85,6 +105,7 @@ const Index = () => {
 
   return (
     <>
+      <Toaster />
       <div className="container signup">
         <div className="heading">
           <h2 className="heading__text">Sign Up For Manual Jobs</h2>

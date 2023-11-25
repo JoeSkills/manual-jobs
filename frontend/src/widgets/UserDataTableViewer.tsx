@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dispatch } from 'react';
 import { AnyAction } from '@reduxjs/toolkit';
 import { State, setLogin } from '../state';
+import toast, { Toaster } from 'react-hot-toast';
 
 const columns: GridColDef[] = [
   {
@@ -115,10 +116,11 @@ const RenderUserActionButtons = (params: {
 };
 
 const onDeleteUser = (rowData: { username: string; _id: string }) => {
-  axios
-    .delete(`${SERVER_PORT}/auth/user/${rowData._id}`)
-    .then(console.log)
-    .catch(console.warn);
+  toast.promise(axios.delete(`${SERVER_PORT}/auth/user/${rowData._id}`), {
+    loading: 'Deleting user...',
+    error: 'Error deleting user. Please try again.',
+    success: 'User deleted successfully!',
+  });
 };
 
 const onAcceptUser = (
@@ -126,15 +128,24 @@ const onAcceptUser = (
   dispatch: Dispatch<AnyAction>,
   rowData: { _id: string; accepted: boolean }
 ) => {
-  axios
-    .patch(`${SERVER_PORT}/auth/acceptance-status/${rowData._id}`, {
-      acceptanceStatus: !rowData.accepted,
-    })
+  toast
+    .promise(
+      axios.patch(`${SERVER_PORT}/auth/acceptance-status/${rowData._id}`, {
+        acceptanceStatus: !rowData.accepted,
+      }),
+      {
+        loading: `${!rowData.accepted ? 'Accepting' : 'Declining'} user...`,
+        error: `Error ${
+          !rowData.accepted ? 'accepting' : 'declining'
+        } user. Please try again.`,
+        success: `User ${
+          !rowData.accepted ? 'accepted' : 'declined'
+        }  successfully!`,
+      }
+    )
     .then((res) => {
-      console.log(res.data.user);
       dispatch(setLogin({ user: res.data.user, token }));
-    })
-    .catch(console.warn);
+    });
 };
 
 const UserDataTableViewer = () => {
@@ -144,14 +155,13 @@ const UserDataTableViewer = () => {
       axios.get(`${SERVER_PORT}/auth/`).then((res) => res.data.users),
   });
 
-  console.log(data);
-
   if (isPending) return 'Loading...';
 
   if (error) console.warn(error.message);
 
   return (
     <Box sx={{ height: 400, width: '100%' }}>
+      <Toaster />
       <DataGrid
         rows={data}
         getRowId={(row) => row._id}
