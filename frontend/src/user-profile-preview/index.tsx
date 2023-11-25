@@ -43,8 +43,8 @@ const UserDataListItem = ({
         {listItemLabel}:
       </Typography>
       <Chip
-        label={listItemData === false ? 'False' : 'True'}
-        color={listItemData === false ? 'error' : 'success'}
+        label={listItemData === false ? 'Not Accepted' : 'Accepted'}
+        color={listItemData === false ? 'warning' : 'success'}
         sx={{
           marginTop: '8px',
         }}

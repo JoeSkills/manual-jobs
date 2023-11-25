@@ -154,14 +154,16 @@ export const UpdateUser: RequestHandler = async (req: any, res, next) => {
   }
 };
 
-export const AcceptUser: RequestHandler = async (req, res, next) => {
+export const ToggleAcceptanceStatus: RequestHandler = async (
+  req,
+  res,
+  next
+) => {
   try {
-    const { _id } = req.body;
-
     const user = await User.findOneAndUpdate(
-      { _id },
+      { _id: req.params.id },
       {
-        accepted: true,
+        accepted: req.body.acceptanceStatus,
       }
     );
 
@@ -169,7 +171,25 @@ export const AcceptUser: RequestHandler = async (req, res, next) => {
 
     return res
       .status(200)
-      .json({ message: 'User Data Updated Successfully', status: true, user });
+      .json({
+        message: 'User Data Updated Successfully',
+        status: true,
+        user: await User.findById(req.params.id),
+      });
+
+    next();
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message, status: false });
+  }
+};
+
+export const DeleteUser: RequestHandler = async (req, res, next) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+
+    return res
+      .status(204)
+      .json({ message: 'User Deleted Successfully', status: true });
 
     next();
   } catch (error) {

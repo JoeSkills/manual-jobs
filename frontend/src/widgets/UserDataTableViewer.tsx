@@ -5,6 +5,10 @@ import { SERVER_PORT } from '../constants';
 import moment from 'moment';
 import axios from 'axios';
 import { Avatar, Button, Chip } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import { Dispatch } from 'react';
+import { AnyAction } from '@reduxjs/toolkit';
+import { State, setLogin } from '../state';
 
 const columns: GridColDef[] = [
   {
@@ -78,37 +82,59 @@ const columns: GridColDef[] = [
     field: '_id',
     headerName: 'User Actions',
     width: 200,
-    renderCell: (params) => {
-      return (
-        <>
-          <Button
-            onClick={() => onDeleteUser(params.row)}
-            variant="contained"
-            color={'error'}
-          >
-            Delete
-          </Button>
-
-          <Button
-            onClick={() => onAcceptUser(params.row)}
-            variant="contained"
-            color={'success'}
-            sx={{ ml: 1 }}
-          >
-            Accept
-          </Button>
-        </>
-      );
-    },
+    renderCell: (params) => RenderUserActionButtons(params),
   },
 ];
 
-const onDeleteUser = (rowData: { username: string }) => {
-  console.log(rowData);
+const RenderUserActionButtons = (params: {
+  row: { accepted: boolean; _id: string; username: string };
+}) => {
+  const dispatch = useDispatch();
+  const token = useSelector((state: State) => state.token);
+
+  return (
+    <>
+      <Button
+        onClick={() => onDeleteUser(params.row)}
+        variant="contained"
+        color={'error'}
+      >
+        Delete
+      </Button>
+
+      <Button
+        onClick={() => onAcceptUser(token, dispatch, params.row)}
+        variant="contained"
+        color={!params.row.accepted ? 'success' : 'warning'}
+        sx={{ ml: 1 }}
+      >
+        {!params.row.accepted ? 'Accept' : 'Decline'}
+      </Button>
+    </>
+  );
 };
 
-const onAcceptUser = (rowData: { username: string }) => {
-  console.log(rowData);
+const onDeleteUser = (rowData: { username: string; _id: string }) => {
+  axios
+    .delete(`${SERVER_PORT}/auth/user/${rowData._id}`)
+    .then(console.log)
+    .catch(console.warn);
+};
+
+const onAcceptUser = (
+  token: string,
+  dispatch: Dispatch<AnyAction>,
+  rowData: { _id: string; accepted: boolean }
+) => {
+  axios
+    .patch(`${SERVER_PORT}/auth/acceptance-status/${rowData._id}`, {
+      acceptanceStatus: !rowData.accepted,
+    })
+    .then((res) => {
+      console.log(res.data.user);
+      dispatch(setLogin({ user: res.data.user, token }));
+    })
+    .catch(console.warn);
 };
 
 const UserDataTableViewer = () => {

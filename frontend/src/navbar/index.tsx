@@ -21,7 +21,10 @@ export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const { pathname } = useLocation();
-  const user = useSelector((state: State) => state.user);
+  const user = useSelector((state: State) => state.user) || {
+    role: '',
+    username: '',
+  };
 
   const dispatch = useDispatch();
 
